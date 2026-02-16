@@ -89,13 +89,11 @@ html, body, #root {
   height: 100%;
 }
 
-/* 배경 흐림 (원래 너 쓰던 버전) */
 .map-tiles-dim {
   filter: grayscale(1) brightness(1.05) contrast(0.9);
   opacity: 0.55;
 }
 
-/* 역 이름 라벨 */
 .station-label {
   font-size: 10px;
   font-weight: 600;
