@@ -41,7 +41,7 @@ export default function App() {
   // ✅ 데이터 로드 (GitHub Pages용 BASE_URL 경로)
   useEffect(() => {
     (async () => {
-      const mergedRes = await fetch(import.meta.env.BASE_URL + "data/merged.json");
+const mergedRes = await fetch(new URL("data/merged.json", import.meta.env.BASE_URL));
       const mergedJson = await mergedRes.json();
       setMerged(mergedJson);
 
@@ -49,7 +49,7 @@ export default function App() {
         setSelectedTime(mergedJson.timeCols[0]);
       }
 
-      const lineRes = await fetch(import.meta.env.BASE_URL + "data/metro-line.json");
+const lineRes   = await fetch(new URL("data/metro-line.json", import.meta.env.BASE_URL));
       const lineJson = await lineRes.json();
       setLineData(lineJson);
     })();
