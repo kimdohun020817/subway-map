@@ -1,68 +1,60 @@
-/* ✅ 전체 화면 꽉 채우기 */
-html, body, #root {
-  height: 100%;
-  margin: 0;
-}
-
-/* 데스크탑 기본: 좌측 패널 + 우측 지도 */
+/* ✅ 기본(PC) : 원래대로 */
 .layout {
-  height: 100vh;
   display: flex;
-  overflow: hidden;
+  height: 100%;
 }
 
 .sidebar {
-  width: 360px;
-  min-width: 320px;
-  max-width: 420px;
-  height: 100vh;
-  overflow-y: auto;
+  width: 360px;     /* 너 원래 사이드바 폭 느낌 유지 */
+  padding: 24px;
   border-right: 1px solid #eee;
   background: #fff;
+  overflow-y: auto; /* 리스트만 스크롤 */
 }
 
 .mapWrap {
   flex: 1;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;  /* PC에서 지도 영역 높이 확보 */
 }
 
 .map {
-  height: 100%;
   width: 100%;
+  height: 100vh;      /* PC에서 지도 꽉 차게 */
 }
 
-/* ✅ 모바일 대응: 위에 패널, 아래 지도(짤림 방지) */
-@media (max-width: 768px) {
-  .layout {
-    flex-direction: column;
-    height: 100svh; /* 모바일 주소창 고려 */
-  }
-
-  .sidebar {
-    width: 100%;
-    max-width: none;
-    min-width: 0;
-    height: 42svh;        /* 위 패널 높이 */
-    border-right: none;
-    border-bottom: 1px solid #eee;
-  }
-
-  .mapWrap {
-    height: 58svh;        /* 지도 높이 */
-  }
-}
-
-/* ✅ 배경 지도 흐림 */
+/* ✅ (네가 원하던) 지도 배경 흐림 정도: 여기서 조절 */
 .map-tiles-dim {
   filter: grayscale(1) brightness(1.05) contrast(0.9);
   opacity: 0.55;
 }
 
-/* ✅ 역 라벨(Tooltip) 작은 글씨 */
+/* ✅ 역 이름 라벨 */
 .station-label {
   font-size: 10px;
   font-weight: 600;
   padding: 2px 4px;
   border-radius: 6px;
+}
+
+/* ✅ 모바일에서만: 위 패널 + 아래 지도(짤림 방지) */
+@media (max-width: 768px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #eee;
+    max-height: 45vh;   /* 위쪽 패널 높이 */
+  }
+
+  .mapWrap {
+    height: 55vh;       /* 아래 지도 높이 */
+    min-height: 55vh;
+  }
+
+  .map {
+    height: 55vh;
+  }
 }
