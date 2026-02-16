@@ -198,8 +198,16 @@ export default function App() {
 
       {/* 지도 */}
       <main className="mapWrap">
-        <MapContainer center={[37.5665, 126.978]} zoom={11} className="map">
-          <TileLayer
+<MapContainer
+  className="map"
+  center={center}
+  zoom={11}
+  scrollWheelZoom
+  touchZoom
+  dragging
+  doubleClickZoom
+  zoomControl
+>          <TileLayer
             className="map-tiles-dim"
             attribution="&copy; OpenStreetMap"
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
