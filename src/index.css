@@ -1,0 +1,9 @@
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+/* 지도 배경을 더 부드럽게(선/점이 더 튀도록) */
+.leaflet-tile {
+  filter: grayscale(0.45) brightness(1.05) contrast(0.9) blur(0.8px);
+}
