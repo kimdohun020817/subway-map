@@ -1,120 +1,30 @@
-/* 전체 레이아웃 */
+/* ✅ 전체 화면 꽉 채우기 */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+/* 데스크탑 기본: 좌측 패널 + 우측 지도 */
 .layout {
-  display: grid;
-  grid-template-columns: 360px 1fr;
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 360px;
+  min-width: 320px;
+  max-width: 420px;
+  height: 100vh;
+  overflow-y: auto;
+  border-right: 1px solid #eee;
+  background: #fff;
+}
+
+.mapWrap {
+  flex: 1;
   height: 100vh;
   overflow: hidden;
-  background: #0f0f10;
-}
-
-/* 좌측 패널 */
-.sidebar {
-  background: #ffffff;
-  padding: 18px 16px;
-  overflow: auto;
-  border-right: 1px solid #e7e7e7;
-}
-
-.title {
-  margin: 0;
-  font-size: 28px;
-  font-weight: 900;
-  letter-spacing: -0.5px;
-}
-
-.subtitle {
-  margin: 6px 0 14px;
-  color: #666;
-  font-size: 13px;
-  line-height: 1.4;
-}
-
-.lineButtons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 14px;
-}
-
-.lineBtn {
-  border: 1px solid #e3e3e3;
-  background: #fff;
-  border-radius: 10px;
-  padding: 8px 12px;
-  font-weight: 800;
-  cursor: pointer;
-}
-
-.lineBtn.active {
-  background: #111;
-  color: #fff;
-  border-color: #111;
-}
-
-.section {
-  margin-top: 16px;
-}
-
-.sectionTitle {
-  font-size: 18px;
-  font-weight: 900;
-  margin-bottom: 10px;
-}
-
-.select {
-  width: 100%;
-  border: 1px solid #e3e3e3;
-  border-radius: 10px;
-  padding: 10px 12px;
-  font-size: 14px;
-  outline: none;
-  background: #fff;
-}
-
-.list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.listItem {
-  border: 1px solid #efefef;
-  border-radius: 14px;
-  padding: 12px 12px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.listLeft {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.rank {
-  font-weight: 900;
-  width: 26px;
-}
-
-.stationName {
-  font-weight: 900;
-}
-
-.timeSmall {
-  font-size: 12px;
-  color: #777;
-  margin-top: 2px;
-}
-
-.pct {
-  font-weight: 900;
-  font-size: 18px;
-}
-
-/* 지도 영역 */
-.mapWrap {
-  height: 100%;
 }
 
 .map {
@@ -122,185 +32,37 @@
   width: 100%;
 }
 
-/* ✅ 배경지도 흐림/저채도/연하게 (노선/역이 부각됨) */
-.map-tiles-dim {
-  filter: grayscale(0.8) saturate(0.3) brightness(1.05) contrast(0.95) opacity(0.5) blur(0.5px);
+/* ✅ 모바일 대응: 위에 패널, 아래 지도(짤림 방지) */
+@media (max-width: 768px) {
+  .layout {
+    flex-direction: column;
+    height: 100svh; /* 모바일 주소창 고려 */
+  }
+
+  .sidebar {
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    height: 42svh;        /* 위 패널 높이 */
+    border-right: none;
+    border-bottom: 1px solid #eee;
+  }
+
+  .mapWrap {
+    height: 58svh;        /* 지도 높이 */
+  }
 }
 
-/* 로딩 */
-.loading {
-  height: 100vh;
-  display: grid;
-  place-items: center;
-  font-weight: 900;
+/* ✅ 배경 지도 흐림 */
+.map-tiles-dim {
+  filter: grayscale(1) brightness(1.05) contrast(0.9);
+  opacity: 0.55;
 }
+
+/* ✅ 역 라벨(Tooltip) 작은 글씨 */
 .station-label {
-  background: rgba(255, 255, 255, 0.85);
-  border: none;
-  box-shadow: none;
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 600;
   padding: 2px 4px;
   border-radius: 6px;
-  color: #111;
-  white-space: nowrap;
-}
-
-.leaflet-tooltip::before {
-  display: none;
-}
-
-.mapWrap { position: relative; }
-
-/* 역 라벨 */
-.station-label {
-  background: rgba(255, 255, 255, 0.85);
-  border: none;
-  box-shadow: none;
-  font-size: 10px;
-  font-weight: 700;
-  padding: 2px 4px;
-  border-radius: 6px;
-  color: #111;
-  white-space: nowrap;
-}
-.leaflet-tooltip::before { display: none; }
-
-/* 헤더 + 공유 버튼 */
-.headerRow{
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap:12px;
-}
-.shareBtn{
-  border:1px solid #e3e3e3;
-  background:#fff;
-  border-radius:10px;
-  padding:8px 10px;
-  font-weight:900;
-  cursor:pointer;
-}
-
-/* 검색 */
-.input{
-  width:100%;
-  border:1px solid #e3e3e3;
-  border-radius:10px;
-  padding:10px 12px;
-  font-size:14px;
-  outline:none;
-  background:#fff;
-}
-.searchHint{
-  font-size:12px;
-  color:#666;
-  margin-top:6px;
-}
-.searchList{
-  margin-top:10px;
-  display:grid;
-  gap:8px;
-}
-.searchItem{
-  width:100%;
-  text-align:left;
-  border:1px solid #efefef;
-  border-radius:12px;
-  padding:10px 12px;
-  background:#fff;
-  cursor:pointer;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-.searchItem.active{
-  border-color:#111;
-}
-.searchName{ font-weight:900; }
-.searchPct{ font-weight:900; }
-
-/* 즐겨찾기 */
-.favList{ display:grid; gap:8px; }
-.favRow{
-  display:flex; gap:8px; align-items:center; justify-content:space-between;
-  border:1px solid #efefef; border-radius:12px; padding:8px 10px; background:#fff;
-}
-.favGo{
-  background:transparent; border:none; cursor:pointer; font-weight:900; text-align:left;
-}
-.favDel{
-  border:1px solid #e3e3e3; background:#fff; border-radius:10px;
-  padding:6px 8px; cursor:pointer; font-weight:900;
-}
-
-/* Top10 리스트 버튼화 */
-.listItemBtn{
-  border:1px solid #efefef;
-  border-radius:14px;
-  padding:12px 12px;
-  background:#fff;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-.listItemBtn.active{
-  border-color:#111;
-}
-
-/* 그래프 카드 */
-.chartCard{
-  border:1px solid #efefef;
-  border-radius:14px;
-  padding:12px;
-  background:#fff;
-}
-.chartHeader{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  margin-bottom:8px;
-}
-.chartTitle{ font-weight:900; font-size:16px; }
-.starBtn{
-  border:1px solid #e3e3e3;
-  background:#fff;
-  border-radius:10px;
-  padding:6px 10px;
-  font-weight:900;
-  cursor:pointer;
-}
-.starBtn.on{
-  background:#111;
-  color:#fff;
-  border-color:#111;
-}
-.chartWrap{ width:100%; height:180px; }
-
-.muted{ color:#777; font-size:12px; }
-
-.map-tiles-dim {
-  filter: grayscale(1) saturate(0) brightness(1.1) opacity(0.3) blur(1.2px);
-}
-
-.timeHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-}
-
-.playBtn {
-  padding: 6px 12px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.playBtn.on {
-  background: #111;
-  color: white;
 }
