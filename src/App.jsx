@@ -19,11 +19,10 @@ function clamp(n, a, b) {
 // 🔥 더 타이트한 4단계 색상 기준
 function congestionColor(pct) {
   const p = clamp(pct ?? 0, 0, 100);
-
-  if (p >= 70) return "#e53935"; // 빨강 (혼잡)
-  if (p >= 50) return "#fb8c00"; // 주황 (주의)
-  if (p >= 30) return "#fdd835"; // 노랑 (적정)
-  return "#43a047"; // 초록 (원활)
+  if (p >= 70) return "#e53935"; // 빨강(혼잡)
+  if (p >= 50) return "#fb8c00"; // 주황(주의)
+  if (p >= 30) return "#fdd835"; // 노랑(적정)
+  return "#43a047"; // 초록(원활)
 }
 
 export default function App() {
@@ -32,14 +31,17 @@ export default function App() {
   const [lineData, setLineData] = useState(null);
   const [selectedTime, setSelectedTime] = useState("");
 
-  // 🔥 시간 재생 상태
+  // ✅ 시간 재생 상태
   const [isPlaying, setIsPlaying] = useState(false);
   const playRef = useRef(null);
 
-  // 데이터 로드
+  // ✅ timeCols는 merged에서 바로 뽑기
+  const timeCols = merged?.timeCols || [];
+
+  // ✅ 데이터 로드 (GitHub Pages용 BASE_URL 경로)
   useEffect(() => {
     (async () => {
-      const mergedRes = await fetch("/data/merged.json");
+      const mergedRes = await fetch(import.meta.env.BASE_URL + "data/merged.json");
       const mergedJson = await mergedRes.json();
       setMerged(mergedJson);
 
@@ -47,31 +49,30 @@ export default function App() {
         setSelectedTime(mergedJson.timeCols[0]);
       }
 
-      const lineRes = await fetch("/data/metro-line.json");
+      const lineRes = await fetch(import.meta.env.BASE_URL + "data/metro-line.json");
       const lineJson = await lineRes.json();
       setLineData(lineJson);
     })();
   }, []);
 
-  const timeCols = merged?.timeCols || [];
-
-  // 현재 시간 index
+  // ✅ 현재 시간 index
   const timeIndex = useMemo(() => {
     const idx = timeCols.indexOf(selectedTime);
     return idx >= 0 ? idx : 0;
   }, [timeCols, selectedTime]);
 
-  // 다음 시간
+  // ✅ 다음 시간으로
   const goNextTime = useCallback(() => {
     if (!timeCols.length) return;
     const next = (timeIndex + 1) % timeCols.length;
     setSelectedTime(timeCols[next]);
   }, [timeCols, timeIndex]);
 
-  // 재생 로직
+  // ✅ 재생 로직
   useEffect(() => {
     if (!isPlaying) {
       if (playRef.current) clearInterval(playRef.current);
+      playRef.current = null;
       return;
     }
 
@@ -79,10 +80,11 @@ export default function App() {
 
     return () => {
       if (playRef.current) clearInterval(playRef.current);
+      playRef.current = null;
     };
   }, [isPlaying, goNextTime]);
 
-  // 선택 노선 정보
+  // ✅ 선택 노선 정보
   const selectedLineEntry = useMemo(() => {
     if (!lineData?.DATA) return null;
     return lineData.DATA.find((d) => d.line === selectedLine) || null;
@@ -98,7 +100,7 @@ export default function App() {
       .map((via) => via.map(([lat, lng]) => [lat, lng]));
   }, [selectedLineEntry]);
 
-  // 역 필터링
+  // ✅ 역 필터링
   const stationsForLine = useMemo(() => {
     if (!merged?.stations || !selectedTime) return [];
 
@@ -153,6 +155,8 @@ export default function App() {
             <button
               className={`playBtn ${isPlaying ? "on" : ""}`}
               onClick={() => setIsPlaying((v) => !v)}
+              disabled={!timeCols.length}
+              title="시간대 재생"
             >
               {isPlaying ? "⏸" : "▶"}
             </button>
