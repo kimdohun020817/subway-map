@@ -39,22 +39,21 @@ export default function App() {
   const timeCols = merged?.timeCols || [];
 
   // ✅ 데이터 로드 (GitHub Pages용 BASE_URL 경로)
- useEffect(() => {
-  (async () => {
-    const mergedRes = await fetch(`${import.meta.env.BASE_URL}data/merged.json`);
-    const mergedJson = await mergedRes.json();
-    setMerged(mergedJson);
+  useEffect(() => {
+    (async () => {
+const mergedRes = await fetch(`${import.meta.env.BASE_URL}data/merged.json`);
+      const mergedJson = await mergedRes.json();
+      setMerged(mergedJson);
 
-    if (mergedJson?.timeCols?.length) {
-      setSelectedTime(mergedJson.timeCols[0]);
-    }
+      if (mergedJson?.timeCols?.length) {
+        setSelectedTime(mergedJson.timeCols[0]);
+      }
 
-    const lineRes = await fetch(`${import.meta.env.BASE_URL}data/metro-line.json`);
-    const lineJson = await lineRes.json();
-    setLineData(lineJson);
-  })();
-}, []);
-
+const lineRes   = await fetch(`${import.meta.env.BASE_URL}data/metro-line.json`);
+      const lineJson = await lineRes.json();
+      setLineData(lineJson);
+    })();
+  }, []);
 
   // ✅ 현재 시간 index
   const timeIndex = useMemo(() => {
@@ -198,16 +197,8 @@ export default function App() {
 
       {/* 지도 */}
       <main className="mapWrap">
-<MapContainer
-  className="map"
-  center={center}
-  zoom={11}
-  scrollWheelZoom
-  touchZoom
-  dragging
-  doubleClickZoom
-  zoomControl
->          <TileLayer
+        <MapContainer center={[37.5665, 126.978]} zoom={11} className="map">
+          <TileLayer
             className="map-tiles-dim"
             attribution="&copy; OpenStreetMap"
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
