@@ -1,60 +1,104 @@
-/* ✅ 기본(PC) : 원래대로 */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
 .layout {
   display: flex;
-  height: 100%;
+  height: 100vh;
 }
 
+/* ===== 왼쪽 패널 ===== */
 .sidebar {
-  width: 360px;     /* 너 원래 사이드바 폭 느낌 유지 */
+  width: 360px;
   padding: 24px;
   border-right: 1px solid #eee;
-  background: #fff;
-  overflow-y: auto; /* 리스트만 스크롤 */
+  background: #ffffff;
+  overflow-y: auto;
 }
 
+.title {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.lineButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.lineBtn {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background: #f8f8f8;
+  cursor: pointer;
+}
+
+.lineBtn.active {
+  background: #111;
+  color: white;
+  border: none;
+}
+
+.section {
+  margin-top: 20px;
+}
+
+.sectionTitle {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.select {
+  width: 100%;
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.list {
+  margin-top: 12px;
+}
+
+.listItem {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  padding: 8px;
+  border-radius: 8px;
+  background: #f6f6f6;
+}
+
+/* ===== 지도 ===== */
 .mapWrap {
   flex: 1;
-  min-height: 100vh;  /* PC에서 지도 영역 높이 확보 */
 }
 
 .map {
   width: 100%;
-  height: 100vh;      /* PC에서 지도 꽉 차게 */
+  height: 100%;
 }
 
-/* ✅ (네가 원하던) 지도 배경 흐림 정도: 여기서 조절 */
+/* 배경 흐림 (원래 너 쓰던 버전) */
 .map-tiles-dim {
   filter: grayscale(1) brightness(1.05) contrast(0.9);
   opacity: 0.55;
 }
 
-/* ✅ 역 이름 라벨 */
+/* 역 이름 라벨 */
 .station-label {
   font-size: 10px;
   font-weight: 600;
   padding: 2px 4px;
   border-radius: 6px;
-}
-
-/* ✅ 모바일에서만: 위 패널 + 아래 지도(짤림 방지) */
-@media (max-width: 768px) {
-  .layout {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    width: 100%;
-    border-right: none;
-    border-bottom: 1px solid #eee;
-    max-height: 45vh;   /* 위쪽 패널 높이 */
-  }
-
-  .mapWrap {
-    height: 55vh;       /* 아래 지도 높이 */
-    min-height: 55vh;
-  }
-
-  .map {
-    height: 55vh;
-  }
 }
