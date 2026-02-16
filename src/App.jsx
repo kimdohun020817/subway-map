@@ -39,21 +39,22 @@ export default function App() {
   const timeCols = merged?.timeCols || [];
 
   // ✅ 데이터 로드 (GitHub Pages용 BASE_URL 경로)
-  useEffect(() => {
-    (async () => {
-const mergedRes = await fetch(new URL("data/merged.json", import.meta.env.BASE_URL));
-      const mergedJson = await mergedRes.json();
-      setMerged(mergedJson);
+ useEffect(() => {
+  (async () => {
+    const mergedRes = await fetch(`${import.meta.env.BASE_URL}data/merged.json`);
+    const mergedJson = await mergedRes.json();
+    setMerged(mergedJson);
 
-      if (mergedJson?.timeCols?.length) {
-        setSelectedTime(mergedJson.timeCols[0]);
-      }
+    if (mergedJson?.timeCols?.length) {
+      setSelectedTime(mergedJson.timeCols[0]);
+    }
 
-const lineRes   = await fetch(new URL("data/metro-line.json", import.meta.env.BASE_URL));
-      const lineJson = await lineRes.json();
-      setLineData(lineJson);
-    })();
-  }, []);
+    const lineRes = await fetch(`${import.meta.env.BASE_URL}data/metro-line.json`);
+    const lineJson = await lineRes.json();
+    setLineData(lineJson);
+  })();
+}, []);
+
 
   // ✅ 현재 시간 index
   const timeIndex = useMemo(() => {
